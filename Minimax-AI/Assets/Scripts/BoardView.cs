@@ -15,55 +15,47 @@ namespace BoardGame
 
         public void Start()
         {
-            _p1 = new Player(1);
-            _p2 = new Player(2);
+            _p1 = new Player(0);
+            _p2 = new Player(1);
             _board = new Board(_size);
 
             for(int i = 0; i<_size.x;i++)
             {
                 for(int j = 0; j<_size.y;j++)
                 {
-                    if(i%2==0 && j%2==0)
-                    {
-                        _board.tiles[i, j].pointMultiplier = 5.0f;
-                    }
+                    _board.tiles[i, j].pointMultiplier = (int)Random.Range(2,6);
                 }
             }
 
             DisplayBoard();
-            //_board.PlaceNewPawn(new Pawn(new Vector2Int(2, 0), 10, _p1),_board.tiles[2,0]);
-            //_board.PlaceNewPawn(new Pawn(new Vector2Int(2, 4), 10, _p2), _board.tiles[2, 4]);
         }
 
         public void DisplayBoard()
         {
             Debug.Log("Displaying");
             string board = "";
-            for (int i = 0; i < _size.x; i++)
+            for (int i = 0; i < _size.y; i++)
             {
-                for (int j = 0; j < _size.y; j++)
+                for (int j = 0; j < _size.x; j++)
                 {
-                    if(_board.tiles[i,j].Occupied()==false)
+                    if(_board.tiles[j,i].Occupied()==false)
                     {
-                        board += " " + (int)(_board.tiles[i, j].pointMultiplier) + " ";
+                        board += " " + (int)(_board.tiles[j, i].pointMultiplier) + " ";
                     }
                     else
                     {
-                        if(_board.tiles[i, j].pawn.owner == _p1)
+                        if(_board.tiles[j, i].pawn.owner == _p1)
                         {
-                            board += " A ";
+                            board += " <color=red>"+(int)(_board.tiles[j, i].pointMultiplier)+"</color> ";
                         }
                         else
                         {
-                            board += " B ";
+                            board += " <color=blue>" + (int)(_board.tiles[j, i].pointMultiplier) + "</color> ";
                         }
                     }
                 }
                 board += "\n";
             }
-
-            board += $"\n\nP1 evaluation: {_board.Evaluate(_p1)}\n";
-            board += $"P2 evaluation: {_board.Evaluate(_p2)}\n";
 
             _boardText.text = board;
         }

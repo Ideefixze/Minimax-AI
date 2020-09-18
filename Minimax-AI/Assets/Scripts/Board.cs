@@ -4,16 +4,18 @@ using UnityEngine;
 
 namespace BoardGame
 {
-    public class Board : IEvaluable
+    public class Board
     {
         private Vector2Int _size;
 
         private List<Pawn> _pawns;
         private Tile[,] _tiles;
+        private IEvaluator evaluator;
 
         public List<Pawn> pawns { get => _pawns; }
         public Tile[,] tiles { get => _tiles;}
         public Vector2Int size { get => _size; set => _size = value; }
+
 
         public Board(Vector2Int boardSize)
         {
@@ -82,16 +84,6 @@ namespace BoardGame
                 return true;
             }
             return false;
-        }
-
-        public int Evaluate(Player player)
-        {
-            int score = 0;
-            foreach(Tile t in tiles)
-            {
-                score += t.Evaluate(player);
-            }
-            return score;
         }
 
         public bool EndState()
