@@ -24,4 +24,10 @@ Commands will be the only way to modify the board. These commands would be usefu
 Each command bring the board to the different state, and thus change the scores for each player. 
 Player 1 without a Queen is in really bad spot, where Player 2 who killed that pawn for one Tower should be the winner in that state.
 
-##
+## Tree of States
+
+If we create a tree from a starting board state, looking by any legal move we can make right now, and by looking how our enemy may respond... and how we can respond... and how enemy may respond... it should be fairly easy for AI to determine which initial move can potentially bring them the biggest gain (or the least loses) in score.
+
+Because we used **Command Design Pattern**, we can easily hold potential moves as objects.
+
+## Pseudocode
