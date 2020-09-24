@@ -63,5 +63,10 @@ function get_ai_move(board, player, players[]) is
             
     return best_move (* null means no move is possible *)
     
+function minimax(board, depth, player, players[])
+    if depth = 0 or node is a terminal node then
+        return board.evaluate(player) - sum(board.evaluate_players_except(players[], player))
+        
+    
 ```
         
