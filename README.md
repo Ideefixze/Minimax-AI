@@ -49,14 +49,17 @@ function minimax(node, depth, maximizingPlayer) is
 ```
 Remember that this function only returns the best score from the root node, and you have to make pre-recursion function to find coresponding move.
 My pseudocode for many players and for game usage:
+
 ```
+(* remember that players[] have to be sorted in player turn order *)
+
 function get_ai_move(board, player, players[]) is
     best_move := null
     best_score := −∞
     foreach possible_move in board.possible_moves_for_player(player) do
         board_after_move := board.copy()
         board_after_move.execute_move(possible_move)
-        score = minimax(board_after_move, 0, player, players[])
+        score = minimax(board_after_move, 1, player, players[])
         if score >= best_score then
             best_score := score
             best_move := possible_move
@@ -64,9 +67,25 @@ function get_ai_move(board, player, players[]) is
     return best_move (* null means no move is possible *)
     
 function minimax(board, depth, player, players[])
-    if depth = 0 or node is a terminal node then
-        return board.evaluate(player) - sum(board.evaluate_players_except(players[], player))
+    if depth = DEPTH or node is a terminal node then
+        return board.evaluate(player) - sum(board.evaluate_players_except(players, player))
+    
+    player_turn = depth%players.count + player.turn_order
         
+    if player_turn==player.turn_order
+        value := −∞
+        foreach possible_move in board.possible_moves_for_player(player) do
+            board_after_move := board.copy()
+            board_after_move.execute_move(possible_move)
+            value := max(value, minimax(board_after_move, depth, player, players[]))
+        return value
+    else (*move for potential minimizers*)
+        value := +∞
+        foreach possible_move in board.possible_moves_for_player(players[player.turn_order]) do
+            board_after_move := board.copy()
+            board_after_move.execute_move(possible_move)
+            value := max(value, minimax(board_after_move, depth, player, players[]))
+        return value
     
 ```
         
