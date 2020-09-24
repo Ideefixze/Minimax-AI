@@ -48,7 +48,7 @@ function minimax(node, depth, maximizingPlayer) is
         return value
 ```
 Remember that this function only returns the best score from the root node, and you have to make pre-recursion function to find coresponding move.
-My pseudocode for many players and for game usage:
+Here's my **core** pseudocode for many players and for game usage:
 
 ```
 (* remember that players[] have to be sorted in player turn order *)
@@ -88,4 +88,10 @@ function minimax(board, depth, player, players[])
         return value
     
 ```
+
+## It is cool, but very slow
+
+Depending on the size of your board, number of potential moves and on tree depth, this may work differently. To be honest, it is really slow. Is there any way we can make it faster? There is an optimization techique called alpha-beta pruning. Great explanation found on wikipedia:
+
+*It stops evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further. When applied to a standard minimax tree, it returns the same move as minimax would, but prunes away branches that cannot possibly influence the final decision.*
         
