@@ -14,12 +14,16 @@ namespace BoardGame
         GameExecutor gameExecutor;
         IEvaluator boardEvaluator;
 
+        public bool useAlphaBeta = false;
+
         // Start is called before the first frame update
         void Start()
         {
             base.Start();
             gameExecutor = new GameExecutor(_board, DisplayBoard);
-            boardEvaluator = new ColumnGameEvaluator(3);
+            boardEvaluator = new ColumnGameEvaluator(5);
+            //boardEvaluator = new SimpleGameEvaluator();
+            DisplayBoard();
         }
 
         // Update is called once per frame
@@ -29,11 +33,21 @@ namespace BoardGame
             {
                 Simulate();
             }
-
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.D))
             {
-                gameExecutor.ExecuteCommand(new PlacePawnCommand(new Pawn(new Vector2Int(0, 0), 1, _p1)));
+                StopAllCoroutines();
+                StartCoroutine("SimulationCoroutine");
             }
+        }
+
+        IEnumerator SimulationCoroutine()
+        {
+            while(_board.EndState()==false)
+            {
+                Simulate();
+                yield return new WaitForEndOfFrame();
+            }
+            yield return null;
         }
 
         private void Simulate()
@@ -62,7 +76,16 @@ namespace BoardGame
             {
                 Board afterMove = _board.Copy();
                 gameExecutor.ExecuteCommand(afterMove, move);
-                int score = Minimax(afterMove, 1, player1, player2);
+                int score = 0;
+                if (useAlphaBeta)
+                {
+                    score = AlphaBeta(afterMove, 1, player1, player2, int.MinValue, int.MaxValue);
+                }
+                else
+                {
+                    score = Minimax(afterMove, 1, player1, player2);
+                }
+                 
                 if (score > bestScore)
                 {
                     bestScore = score;
@@ -120,11 +143,54 @@ namespace BoardGame
             }
         }
 
+        public int AlphaBeta(Board board, int depth, Player playerFirst, Player playerSecond, int alpha, int beta)
+        {
+            if (board.EndState() == true || depth == _simulationDepth)
+            {
+                return boardEvaluator.Evaluate(board, playerFirst) - boardEvaluator.Evaluate(board, playerSecond);
+            }
+
+            if (depth % 2 == 0)
+            {
+                int bestScore = int.MinValue;
+                List<ICommand> moves = board.PossibleMoves(playerFirst);
+
+                foreach (ICommand move in moves)
+                {
+                    Board afterMove = board.Copy();
+                    gameExecutor.ExecuteCommand(afterMove, move);
+                    int score = AlphaBeta(afterMove, depth + 1, playerFirst, playerSecond, alpha, beta);
+                    bestScore = Mathf.Max(bestScore, score);
+                    alpha = Mathf.Max(alpha, bestScore);
+                    if (alpha >= beta)
+                        break;
+                }
+                return bestScore;
+            }
+            else
+            {
+                int bestScore = int.MaxValue;
+                List<ICommand> moves = board.PossibleMoves(playerSecond);
+
+                foreach (ICommand move in moves)
+                {
+                    Board afterMove = board.Copy();
+                    gameExecutor.ExecuteCommand(afterMove, move);
+                    int score = AlphaBeta(afterMove, depth + 1, playerFirst, playerSecond, alpha, beta);
+                    bestScore = Mathf.Min(bestScore, score);
+                    beta = Mathf.Min(beta, bestScore);
+                    if (beta <= alpha)
+                        break;
+                }
+                return bestScore;
+            }
+        }
+
         public void DisplayBoard()
         {
             base.DisplayBoard();
-            _boardText.text += $"\n\n P1: {boardEvaluator.Evaluate(_board, _p1)}";
-            _boardText.text += $"\n\n P2: {boardEvaluator.Evaluate(_board, _p2)}";
+            _boardText.text += $"\n\n  <color=red>P1: {boardEvaluator.Evaluate(_board, _p1)}</color>";
+            _boardText.text += $"\n\n  <color=blue> P2: {boardEvaluator.Evaluate(_board, _p2)}</color>";
         }
     }
 }

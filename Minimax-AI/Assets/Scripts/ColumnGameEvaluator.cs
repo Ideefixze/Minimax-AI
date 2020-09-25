@@ -19,6 +19,8 @@ namespace BoardGame
             {
                 score += t.Evaluate(player);
             }
+            //Get bonus score for player one if they make columns
+            //Or bonus score for player two if they make horizontal lines
             foreach (Pawn p in board.pawns)
             {
                 if (p.owner == player)

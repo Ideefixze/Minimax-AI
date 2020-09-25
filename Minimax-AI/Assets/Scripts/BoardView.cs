@@ -27,12 +27,11 @@ namespace BoardGame
                 }
             }
 
-            DisplayBoard();
+            
         }
 
         public void DisplayBoard()
         {
-            Debug.Log("Displaying");
             string board = "";
             for (int i = 0; i < _size.y; i++)
             {
