@@ -126,5 +126,13 @@ function minimax_alphabeta(board, depth, player, players[], alpha, beta)
         return value
     
 ```
-where initial values is `alpha:=INT.Minimum`, `beta:=INT.Maximum`.
+where initial values is `alpha:=INT.Minimum`, `beta:=INT.Maximum`. 
+
+## Why this algorithm is so cool?
+
+Because if implemented correctly it works with many games that can be represented as zero-sum game. It could be also implemented for other types of game. Of course this would require to take some part of game world to be represented as zero-sum game: maybe turn-based or even realtime combat? Fun way to use it would be to create a character, like a chess enemy, who will say that we made a bad move, or character doing bad move with a storydriven reason. 
+
+## Repository
+
+If you want to see the code, for my two-player implementation: clone repository and open up with Unity. 
         
