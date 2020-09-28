@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace BoardGame
 {
+    /// <summary>
+    /// Evaluator that gives score based on total score for having pawn placed on a tile (no special rules)
+    /// </summary>
     public class SimpleGameEvaluator: IEvaluator
     {
 

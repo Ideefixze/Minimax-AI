@@ -99,6 +99,8 @@ namespace BoardGame
             return end;
         }
 
+        //TODO: Interface similar to IEvaluator, that gives a list of possible moves for a given board
+        // So it is more OOP and would be able to create different "games" that have different rules
         public List<ICommand> PossibleMoves(Player p)
         {
             List<ICommand> possibleMoves = new List<ICommand>();
