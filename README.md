@@ -84,7 +84,7 @@ function minimax(board, depth, player, players[])
         foreach possible_move in board.possible_moves_for_player(players[player.turn_order]) do
             board_after_move := board.copy()
             board_after_move.execute_move(possible_move)
-            value := max(value, minimax(board_after_move, depth, player, players[]))
+            value := min(value, minimax(board_after_move, depth, player, players[]))
         return value
     
 ```
@@ -94,4 +94,37 @@ function minimax(board, depth, player, players[])
 Depending on the size of your board, number of potential moves and on tree depth, this may work differently. To be honest, it is really slow. Is there any way we can make it faster? There is an optimization techique called alpha-beta pruning. Great explanation found on wikipedia:
 
 *It stops evaluating a move when at least one possibility has been found that proves the move to be worse than a previously examined move. Such moves need not be evaluated further. When applied to a standard minimax tree, it returns the same move as minimax would, but prunes away branches that cannot possibly influence the final decision.*
+
+This modifies our `minimax` function to:
+
+```
+function minimax_alphabeta(board, depth, player, players[], alpha, beta)
+    if depth = DEPTH or node is a terminal node then
+        return board.evaluate(player) - sum(board.evaluate_players_except(players, player))
+    
+    player_turn = depth%players.count + player.turn_order
+        
+    if player_turn==player.turn_order
+        value := −∞
+        foreach possible_move in board.possible_moves_for_player(player) do
+            board_after_move := board.copy()
+            board_after_move.execute_move(possible_move)
+            value := max(value, minimax(board_after_move, depth, player, players[]))
+            alpha = max(value, alpha)
+            if alpha >= beta then
+                break
+        return value
+    else (*move for potential minimizers*)
+        value := +∞
+        foreach possible_move in board.possible_moves_for_player(players[player.turn_order]) do
+            board_after_move := board.copy()
+            board_after_move.execute_move(possible_move)
+            value := min(value, minimax(board_after_move, depth, player, players[]))
+            beta = min(value, beta)
+            if beta <= alpha then
+                break
+        return value
+    
+```
+where initial values is `alpha:=INT.Minimum`, `beta:=INT.Maximum`.
         
