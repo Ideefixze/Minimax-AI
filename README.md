@@ -2,6 +2,12 @@
 
 Minimax AI implementation for games.
 
+![](ai_example.gif)
+
+Simple AI simulated game, where each turn you pick tile.
+
+Score = score of all tiles + 5*each pair of vertical tiles(player 1) or pair of horizontal tiles(player 2)
+
 ## Basic Introduction
 Let's imagine a board game for two players. This game contains tiles and pawns. There are also some rules, that determine the total score for each player.
 Also, there are some legal moves that you can do each turn, like placing a pawn or moving it. To make things easier: let's assume we can only place pawns.
