@@ -13,9 +13,12 @@ Let's imagine a board game for two players. This game contains tiles and pawns. 
 Also, there are some legal moves that you can do each turn, like placing a pawn or moving it. To make things easier: let's assume we can only place pawns.
 Positioning pawns on the board makes different evaluation of the score. For two-player game, difference of scores `score(p1)-score(p2)` can be useful in determining victory.
 
-more than 0 is a victory for Player 1
-==0 means draw
-less than 0 is a victory for Player 2
+- more than 0 is a victory for Player 1
+
+- ==0 means draw
+
+- less than 0 is a victory for Player 2
+
 
 ## Minimizing Player, Maximizing Player
 
