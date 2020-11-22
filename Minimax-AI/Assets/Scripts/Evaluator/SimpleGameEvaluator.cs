@@ -17,7 +17,7 @@ namespace BoardGame
         public int Evaluate(Board board, Player player)
         {
             int score = 0;
-            foreach (Tile t in board.tiles)
+            foreach (Tile t in board.Tiles)
             {
                 score += t.Evaluate(player);
             }

@@ -6,52 +6,49 @@ namespace BoardGame
 {
     public class Board
     {
-        private Vector2Int _size;
 
-        private List<Pawn> _pawns;
-        private Tile[,] _tiles;
         private IEvaluator evaluator;
 
-        public List<Pawn> pawns { get => _pawns; }
-        public Tile[,] tiles { get => _tiles;}
-        public Vector2Int size { get => _size; set => _size = value; }
+        public List<Pawn> Pawns { get; set; }
+        public Tile[,] Tiles { get; set; }
+        public Vector2Int Size { get; private set; }
 
 
         public Board(Vector2Int boardSize)
         {
-            _size = new Vector2Int(boardSize.x, boardSize.y);
+            Size = new Vector2Int(boardSize.x, boardSize.y);
 
-            _tiles = new Tile[size.x,size.y];
+            Tiles = new Tile[Size.x,Size.y];
 
-            for (int i = 0; i < size.x; i++)
+            for (int i = 0; i < Size.x; i++)
             {
-                for (int j = 0; j < size.y; j++)
+                for (int j = 0; j < Size.y; j++)
                 {
-                    _tiles[i, j] = new Tile(new Vector2Int(i, j), 1f, null);
+                    Tiles[i, j] = new Tile(new Vector2Int(i, j), 1f, null);
                 }
             }
 
-            _pawns = new List<Pawn>();
+            Pawns = new List<Pawn>();
         }
         
         public Board Copy()
         {
-            Board b = new Board(this.size);
+            Board b = new Board(this.Size);
 
             //Making copies
-            for (int i = 0; i < b.size.x; i++)
+            for (int i = 0; i < b.Size.x; i++)
             {
-                for (int j = 0; j < b.size.y; j++)
+                for (int j = 0; j < b.Size.y; j++)
                 {
-                    b.tiles[i, j] = new Tile(new Vector2Int(i, j), this.tiles[i, j].pointMultiplier, null);
+                    b.Tiles[i, j] = new Tile(new Vector2Int(i, j), this.Tiles[i, j].PointMultiplier, null);
                 }
             }
 
-            foreach (Pawn p in this.pawns)
+            foreach (Pawn p in this.Pawns)
             {
                 Pawn newPawn = new Pawn(p);
-                b.pawns.Add(newPawn);
-                b.tiles[p.position.x, p.position.y].pawn = newPawn;
+                b.Pawns.Add(newPawn);
+                b.Tiles[p.Position.x, p.Position.y].Pawn = newPawn;
             }
 
             return b;
@@ -60,13 +57,13 @@ namespace BoardGame
 
         public bool RepositionPawn(Player p, Tile a, Tile b)
         {
-            if(a.pawn.owner==p)
+            if(a.Pawn.Owner==p)
             {
                 if(b.Occupied() == false)
                 {
-                    b.pawn = a.pawn;
-                    a.pawn = null;
-                    b.pawn.position = new Vector2Int(b.position.x, b.position.y);
+                    b.Pawn = a.Pawn;
+                    a.Pawn = null;
+                    b.Pawn.Position = new Vector2Int(b.position.x, b.position.y);
                     
                     return true;
                 }
@@ -77,10 +74,10 @@ namespace BoardGame
 
         public bool PlaceNewPawn(Pawn pawn)
         {
-            if (tiles[pawn.position.x,pawn.position.y].Occupied()==false)
+            if (Tiles[pawn.Position.x,pawn.Position.y].Occupied()==false)
             {
-                pawns.Add(pawn);
-                tiles[pawn.position.x, pawn.position.y].pawn = pawn;
+                Pawns.Add(pawn);
+                Tiles[pawn.Position.x, pawn.Position.y].Pawn = pawn;
                 return true;
             }
             return false;
@@ -89,7 +86,7 @@ namespace BoardGame
         public bool EndState()
         {
             bool end = true;
-            foreach (Tile t in tiles)
+            foreach (Tile t in Tiles)
             {
                 if(t.Occupied()==false)
                 {
@@ -105,7 +102,7 @@ namespace BoardGame
         {
             List<ICommand> possibleMoves = new List<ICommand>();
 
-            foreach (Tile t in tiles)
+            foreach (Tile t in Tiles)
             {
                 if (t.Occupied() == false)
                 {

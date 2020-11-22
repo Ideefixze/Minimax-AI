@@ -6,49 +6,49 @@ namespace BoardGame
 {
     public class ColumnGameEvaluator: IEvaluator
     {
-        private int _columnBonus;
+        private int columnBonus;
 
         public ColumnGameEvaluator(int columnBonus)
         {
-            _columnBonus = columnBonus;
+            this.columnBonus = columnBonus;
         }
         public int Evaluate(Board board, Player player)
         {
             int score = 0;
-            foreach (Tile t in board.tiles)
+            foreach (Tile t in board.Tiles)
             {
                 score += t.Evaluate(player);
             }
             //Get bonus score for player one if they make columns
             //Or bonus score for player two if they make horizontal lines
-            foreach (Pawn p in board.pawns)
+            foreach (Pawn p in board.Pawns)
             {
-                if (p.owner == player)
+                if (p.Owner == player)
                 {
-                    if(player.id==0)
+                    if(player.Id==0)
                     {
-                        if (p.position.y < board.size.y - 1)
+                        if (p.Position.y < board.Size.y - 1)
                         {
-                            Pawn under = board.tiles[p.position.x, p.position.y + 1].pawn;
+                            Pawn under = board.Tiles[p.Position.x, p.Position.y + 1].Pawn;
                             if (under != null)
                             {
-                                if (under.owner == player)
+                                if (under.Owner == player)
                                 {
-                                    score += _columnBonus;
+                                    score += columnBonus;
                                 }
                             }
                         }
                     }
-                    if (player.id == 1)
+                    if (player.Id == 1)
                     {
-                        if (p.position.x < board.size.x - 1)
+                        if (p.Position.x < board.Size.x - 1)
                         {
-                            Pawn under = board.tiles[p.position.x+1, p.position.y].pawn;
+                            Pawn under = board.Tiles[p.Position.x + 1, p.Position.y].Pawn;
                             if (under != null)
                             {
-                                if (under.owner == player)
+                                if (under.Owner == player)
                                 {
-                                    score += _columnBonus;
+                                    score += columnBonus;
                                 }
                             }
                         }

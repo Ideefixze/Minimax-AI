@@ -6,7 +6,7 @@ namespace BoardGame
 {
     public interface ICommand
     {
-        void Execute(Board b);
+        void Execute(Board board);
     }
 }
 

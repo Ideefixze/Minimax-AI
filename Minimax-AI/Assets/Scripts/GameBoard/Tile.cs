@@ -8,29 +8,26 @@ namespace BoardGame
     {
         //Pawn standing on a tile.
         //null means no pawn is currently standing on a tile (empty)
-        private Pawn _pawn;
-        private Vector2Int _position;
-        private float _pointMultiplier;
 
-        public Vector2Int position { get => _position; set => _position = value; }
-        public Pawn pawn { get => _pawn; set => _pawn = value; }
-        public float pointMultiplier { get => _pointMultiplier; set => _pointMultiplier = value; }
+        public Vector2Int position { get; set; }
+        public Pawn Pawn { get; set; }
+        public float PointMultiplier { get; set; }
 
         public Tile(Vector2Int pos, float pointMultilpier=1.0f, Pawn startingPawn=null)
         {
             position = new Vector2Int(pos.x, pos.y);
-            pawn = startingPawn;
-            _pointMultiplier = pointMultilpier;
+            Pawn = startingPawn;
+            PointMultiplier = pointMultilpier;
         }
 
-        public Tile(Tile t) : this(t.position,t.pointMultiplier,t.pawn)
+        public Tile(Tile t) : this(t.position,t.PointMultiplier,t.Pawn)
         {
              
         }
 
         public bool Occupied()
         {
-            if(_pawn==null)
+            if(Pawn==null)
             {
                 return false;
             }
@@ -42,13 +39,13 @@ namespace BoardGame
 
         public int Evaluate(Player player)
         {
-            if (pawn == null)
+            if (Pawn == null)
             {
                 return 0;
             }
             else
             {
-                return (int)(_pawn.Evaluate(player)*_pointMultiplier);
+                return (int)(Pawn.Evaluate(player)*PointMultiplier);
             }
         }
 

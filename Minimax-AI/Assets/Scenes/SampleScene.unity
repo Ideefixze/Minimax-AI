@@ -166,10 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3788a6c770afd9845ac43331954ba250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boardText: {fileID: 1103716630}
-  _size: {x: 6, y: 6}
-  _simulationDepth: 3
-  useAlphaBeta: 1
+  BoardText: {fileID: 1103716630}
+  Size: {x: 8, y: 8}
+  simulationDepth: 3
+  UseAlphaBeta: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,20 +6,20 @@ namespace BoardGame
 {
     public class PlacePawnCommand : ICommand
     {
-        private Pawn _p;
+        private Pawn pawn;
         public PlacePawnCommand(Pawn p)
         {
-            _p = p;
+            pawn = p;
         }
 
         public void Execute(Board b)
         {
-            b.PlaceNewPawn(_p);
+            b.PlaceNewPawn(pawn);
         }
 
         public override string ToString()
         {
-            return base.ToString() + "   " + _p.position;
+            return base.ToString() + "   " + pawn.Position;
         }
     }
 }

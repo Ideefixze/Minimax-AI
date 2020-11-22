@@ -8,22 +8,21 @@ namespace BoardGame
 {
     public class Player
     {
-        private int _id;
-        public int id { get => _id;}
+        public int Id { get; private set; }
 
         public Player(int id)
         {
-            _id = id;
+            Id = id;
         }
 
         public static bool operator==(Player a, Player b)
         {
-            return a.id == b.id;
+            return a.Id == b.Id;
         }
 
         public static bool operator!=(Player a, Player b)
         {
-            return a.id != b.id;
+            return a.Id != b.Id;
         }
     }
 }

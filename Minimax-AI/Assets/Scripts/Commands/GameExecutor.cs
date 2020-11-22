@@ -7,13 +7,13 @@ namespace BoardGame
 {
     public class GameExecutor : IExecutor
     {
-        private Board _board;
-        private System.Action _postExecutionAction;
+        private Board board;
+        private System.Action postExecutionAction;
 
         public GameExecutor(Board board, System.Action postExecution =null)
         {
-            _board = board;
-            _postExecutionAction = postExecution;
+            this.board = board;
+            postExecutionAction = postExecution;
         }
         /// <summary>
         /// Executes command on the main board, specified in _board.
@@ -21,8 +21,8 @@ namespace BoardGame
         /// <param name="command">Command</param>
         public void ExecuteCommand(ICommand command)
         {
-            ExecuteCommand(_board, command);
-            _postExecutionAction.Invoke();
+            ExecuteCommand(board, command);
+            postExecutionAction.Invoke();
         }
 
         /// <summary>
