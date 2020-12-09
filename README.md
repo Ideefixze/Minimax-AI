@@ -146,4 +146,6 @@ Because if implemented correctly it works with many games that can be represente
 If you want to see the code, for my two-player implementation: clone repository and open up with Unity. 
 
 Press 'S' for 1 step, Press 'D' for full simulation.
+
+Board Evaluation can be easily chaged so you can create your own "rules".
         
